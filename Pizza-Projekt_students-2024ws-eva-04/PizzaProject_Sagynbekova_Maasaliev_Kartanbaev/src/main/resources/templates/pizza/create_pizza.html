@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Pizza</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Create a New Pizza</h1>
+    <form th:action="@{/pizzas/create}" th:object="${pizza}" method="post">
+        <div class="form-group">
+            <label for="name">Pizza Name</label>
+            <input type="text" id="name" name="name" th:field="*{name}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="priceSmall">Price (Small)</label>
+            <input type="number" id="priceSmall" name="priceSmall" th:field="*{priceSmall}" class="form-control" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label for="priceMedium">Price (Medium)</label>
+            <input type="number" id="priceMedium" name="priceMedium" th:field="*{priceMedium}" class="form-control" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label for="priceLarge">Price (Large)</label>
+            <input type="number" id="priceLarge" name="priceLarge" th:field="*{priceLarge}" class="form-control" step="0.01" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Pizza</button>
+    </form>
+    <a href="/pizzas" class="btn btn-secondary mt-3">Back to Pizza List</a>
+</div>
+</body>
+</html>

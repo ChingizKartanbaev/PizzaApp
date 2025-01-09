@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Customer</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Create a New Customer</h1>
+    <form th:action="@{/customers/create}" th:object="${customer}" method="post">
+        <!-- Customer Information -->
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" th:field="*{firstName}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" th:field="*{lastName}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="loginName">Login Name</label>
+            <input type="text" id="loginName" name="loginName" th:field="*{loginName}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="passwordHash">Password</label>
+            <input type="password" id="passwordHash" name="passwordHash" th:field="*{passwordHash}" class="form-control" required>
+        </div>
+
+        <!-- Address Information -->
+        <h3>Address</h3>
+        <div class="form-group">
+            <label for="street">Street</label>
+            <input type="text" id="street" name="street" th:field="*{street}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="houseNumber">House Number</label>
+            <input type="text" id="houseNumber" name="houseNumber" th:field="*{houseNumber}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="town">Town</label>
+            <input type="text" id="town" name="town" th:field="*{town}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="postalCode">Postal Code</label>
+            <input type="text" id="postalCode" name="postalCode" th:field="*{postalCode}" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Customer</button>
+    </form>
+    <a href="/customers" class="btn btn-secondary mt-3">Back to Customer List</a>
+</div>
+</body>
+</html>

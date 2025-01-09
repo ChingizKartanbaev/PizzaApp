@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Ihre Warenkorb</h1>
+
+    <!-- Проверяем, есть ли элементы в корзине -->
+    <div th:if="${cart != null and cart.items != null and cart.items.size() > 0}">
+        <!-- Таблица с элементами корзины -->
+
+		<table class="table table-bordered">
+		    <thead class="thead-light">
+		    <tr>
+		        <th>#</th>
+		        <th>Pizza</th>
+		        <th>Größe</th>
+		        <th>Количество</th>
+		        <th>Цена за единицу</th>
+		        <th>Итоговая цена</th>
+		        <th>Действия</th>
+		    </tr>
+		    </thead>
+		    <tbody>
+		    <!-- Проверка наличия элементов в корзине -->
+		    <tr th:if="${cart != null and cart.items != null and cart.items.size() > 0}"
+		        th:each="item, iterStat : ${cart.items}">
+		        <td th:text="${iterStat.index + 1}"></td> <!-- Номер элемента -->
+		        <td th:text="${item.pizza.name}"></td> <!-- Название пиццы -->
+		        <td th:text="${item.pizzaSize}"></td> <!-- Размер пиццы -->
+		        <td>
+		            <form th:action="@{/cart/update}" method="post" class="d-flex align-items-center">
+		                <!-- Определяем ID корзины (для авторизованных или анонимных пользователей) -->
+		                <input type="hidden" th:value="${cart.customer != null ? cart.customer.id : cart.sessionId}" name="cartId"/>
+		                <input type="hidden" th:value="${item.itemId}" name="itemId"/>
+		                <input type="number" min="1" th:value="${item.quantity}" name="quantity" class="form-control w-50 mr-2" />
+		                <button class="btn btn-primary btn-sm">Обновить</button>
+		            </form>
+		        </td>
+		        <td th:text="${item.pizza.priceMedium} + ' €'"></td> <!-- Цена за единицу -->
+		        <td th:text="${item.totalPrice} + ' €'"></td> <!-- Итоговая цена за элемент -->
+		        <td>
+		            <form th:action="@{/cart/remove}" method="post">
+		                <!-- Определяем ID корзины (для авторизованных или анонимных пользователей) -->
+		                <input type="hidden" th:value="${cart.customer != null ? cart.customer.id : cart.sessionId}" name="cartId"/>
+		                <input type="hidden" th:value="${item.itemId}" name="itemId"/>
+		                <button class="btn btn-danger btn-sm">Удалить</button>
+		            </form>
+		        </td>
+		    </tr>
+		    </tbody>
+		</table>
+
+
+        <!-- Итоговая информация -->
+        <div class="text-right mt-4">
+            <h4 th:text="'Итоговая сумма: ' + ${cart.totalPrice} + ' €'"></h4>
+            <h5 th:text="'Всего товаров: ' + ${cart.quantity}"></h5>
+        </div>
+
+        <!-- Кнопка очистки корзины -->
+        <form th:action="@{/cart/clear}" method="post" class="text-right mt-3">
+            <!-- Для авторизованных и анонимных пользователей -->
+            <input type="hidden" th:if="${cart.customer != null}" th:value="${cart.customer.id}" name="customerId"/>
+            <input type="hidden" th:if="${cart.customer == null}" th:value="${cart.sessionId}" name="sessionId"/>
+            <button class="btn btn-warning">Очистить корзину</button>
+        </form>
+    </div>
+
+    <!-- Сообщение, если корзина пуста -->
+    <div th:if="${cart == null or cart.items == null or cart.items.size() == 0}" class="text-center mt-5">
+        <h3>Корзина пуста</h3>
+        <a class="btn btn-primary mt-3" th:href="@{/pizzas}">К меню</a>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

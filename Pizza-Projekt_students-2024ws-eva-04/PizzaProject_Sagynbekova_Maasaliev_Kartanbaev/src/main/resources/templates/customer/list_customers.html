@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Customer List</h1>
+    <a href="/customers/create" class="btn btn-success mb-3">Create New Customer</a>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Login Name</th>
+			<th>Street</th>
+			<th>House Number</th>
+			<th>Town</th>
+			<th>PostalCode</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer : ${customers}">
+            <td th:text="${customer.getId()}"></td>
+			<td th:text="${customer.getFirstName()}"></td>
+			<td th:text="${customer.getLastName()}"></td>
+			<td th:text="${customer.getLoginName()}"></td>
+			<td th:text="${customer.getAddresses().getStreet()}"></td>
+			<td th:text="${customer.getAddresses().getHouseNumber()}"></td>
+			<td th:text="${customer.getAddresses().getTown()}"></td>
+			<td th:text="${customer.getAddresses().getPostalCode()}"></td>
+			<td>
+				<a th:href="@{/customers/edit/{id} (id=${customer.getId()})}" class="btn btn-warning btn-sm">Edit</a>
+				<a th:href="@{/customers/delete/{id} (id=${customer.getId()})}" class="btn btn-danger btn-sm">Delete</a>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>
